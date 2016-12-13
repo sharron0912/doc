@@ -92,7 +92,7 @@ insert overwrite directory '/user/qz90625/income_capture/sep' select * from raww
 
 #### Download data from hdfs to local dir on UAT
 ```sh
-hadoop fs -getmerge /user/qz90625/income_capture/sep /data/1/rawwebbehavior/qz90625/cfin_sep
+hadoop fs -getmerge /user/qz90625/income_capture/sep /data/1/rawwebbehavior/qz90625/income_capture/sep
 ```
 
 #### Transfer data from UAT to GRID (SAS)
