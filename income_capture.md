@@ -35,8 +35,8 @@ FROM
           AND pid NOT IN (520,521,522,524,525,526)
           AND substr(a.ofr_id,6,4) IN ('CFIN')
           AND a.ofr_acpt='Extended'
-  UNION
-  allSELECT DISTINCT a.acct_nbr,
+  UNION ALL
+  SELECT DISTINCT a.acct_nbr,
          6401 AS per_num,
          loc_id
   FROM default.com_ofr_event_0916 a
@@ -65,8 +65,8 @@ JOIN
           AND pid NOT IN (520,521,522,524,525,526)
           AND substr(a.ofr_id,6,4) IN ('CFIN')
           AND a.ofr_acpt='Clicked'
-  UNION
-  allSELECT DISTINCT a.acct_nbr,
+  UNION ALL
+  SELECT DISTINCT a.acct_nbr,
          6401 AS per_num,
          loc_id
   FROM default.com_ofr_event_0916 a
@@ -113,8 +113,8 @@ FROM
           AND pid NOT IN (520,521,522,524,525,526)
           AND substr(a.ofr_id,6,4) IN ('CFIN')
           AND a.ofr_acpt='Extended'
-  UNION
-  allSELECT DISTINCT a.acct_nbr,
+  UNION ALL
+  SELECT DISTINCT a.acct_nbr,
          6401 AS per_num
   FROM default.com_ofr_event_0916 a
   INNER JOIN rawwebbehavior.rp18607_ao_mcell_092016_accts b
@@ -143,8 +143,8 @@ JOIN
           AND pid NOT IN (520,521,522,524,525,526)
           AND substr(a.ofr_id,6,4) IN ('CFIN')
           AND a.ofr_acpt='Clicked'
-  UNION
-  allSELECT DISTINCT a.acct_nbr,
+  UNION ALL
+  SELECT DISTINCT a.acct_nbr,
          6401 AS per_num
   FROM default.com_ofr_event_0916 a
   INNER JOIN rawwebbehavior.rp18607_ao_mcell_092016_accts b
