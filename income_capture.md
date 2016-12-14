@@ -174,5 +174,5 @@ hadoop fs -getmerge /user/qz90625/income_capture/sep /data/1/rawwebbehavior/qz90
 
 #### Transfer data from UAT to GRID (SAS)
 ```sh
-scp npsmodel sn56294@cagprod.nam.nsroot.net:/gdm/digitalanalytics/sachin
+scp test.txt qz90625@cagprod.nam.nsroot.net:~/income_capture
 ```
