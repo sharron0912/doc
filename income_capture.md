@@ -162,17 +162,24 @@ JOIN
         AND a.per_num=b.per_num
 ```
         
-#### Download data from hive to hdfs
+### Download data from hive to hdfs
 ```sh
 insert overwrite directory '/user/qz90625/income_capture/sep' select * from rawwebbehavior.qz90625_cfin_resp_sep_loc where loc_id != 'SALT'
 ```
 
-#### Download data from hdfs to local dir on UAT
+### Download data from hdfs to local dir on UAT
 ```sh
 hadoop fs -getmerge /user/qz90625/income_capture/sep /data/1/rawwebbehavior/qz90625/income_capture/sep
 ```
 
-#### Transfer data from UAT to GRID (SAS)
+### Transfer data from UAT to GRID (SAS)
 ```sh
 scp test.txt qz90625@cagprod.nam.nsroot.net:~/income_capture
 ```
+
+### Create tag table
+1. copy the csv file to /tagfiles
+```sh
+tagcp /path/csv_file
+```
+2. go to https://consumeranalyticsportal.citigroup.net
