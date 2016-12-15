@@ -179,7 +179,7 @@ scp test.txt qz90625@cagprod.nam.nsroot.net:~/income_capture
 
 ### Create tag table
 1. copy the csv file to /tagfiles
-```sh
-tagcp /path/csv_file
-```
+   ```sh
+   tagcp /path/csv_file
+   ```
 2. go to https://consumeranalyticsportal.citigroup.net
