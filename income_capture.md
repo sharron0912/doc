@@ -84,6 +84,13 @@ JOIN
         AND a.per_num=b.per_num
         AND a.loc_id=b.loc_id
 ```
+```sql
+create table rawwebbehavior.qz90625_cfin_resp_sep ASSELECT acct_num,
+         max(resp) AS resp
+FROM rawwebbehavior.qz90625_cfin_resp_sep_loc
+WHERE loc_id!='SALT'
+GROUP BY  acct_num
+```
 
 #### Create a table for September data at account level
 ```sql
