@@ -190,3 +190,17 @@ scp test.txt qz90625@cagprod.nam.nsroot.net:~/income_capture
    tagcp /path/csv_file
    ```
 2. go to https://consumeranalyticsportal.citigroup.net
+
+
+## Pull variables
+### conventional 
+### business logic (transaction level)
+### machine learning (transaction level)
+
+## IV criterion calculation
+
+
+## Variable clusteing
+
+
+## Build models
