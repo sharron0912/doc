@@ -199,12 +199,16 @@ scp test.txt qz90625@cagprod.nam.nsroot.net:~/income_capture
 
 ## IV criterion calculation
 /gdm/coe/na_branded_cards/qz90625/income_capture
+
 IV_calc.sas
+
 Fineclass_Input.sas
+
 output: IV_calc.lst, IV_CFIN_Sep16.xls
 
 ## Variable clusteing
 VARCLUS2.sas
+
 output: VARCLUS2.lst, summary_varclus_cfin.xls
 
 ## Variable selection
@@ -212,8 +216,11 @@ output: VARCLUS2.lst, summary_varclus_cfin.xls
 
 2. Get selected variables
     UAT1 home dir 
+    
     extract_var.groovy 
+    
     input: IV_calc.lst, temp2 
+    
     output: variable_selected 
 
 3. Keep the selected variables 
