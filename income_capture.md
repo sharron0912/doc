@@ -198,9 +198,27 @@ scp test.txt qz90625@cagprod.nam.nsroot.net:~/income_capture
 ### machine learning (transaction level)
 
 ## IV criterion calculation
-
+/gdm/coe/na_branded_cards/qz90625/income_capture
+IV_calc.sas
+Fineclass_Input.sas
+output: IV_calc.lst, IV_CFIN_Sep16.xls
 
 ## Variable clusteing
+VARCLUS2.sas
+output: VARCLUS2.lst, summary_varclus_cfin.xls
 
+## Variable selection
+1. 7 steps to get temp2 from VARCLUS2.lst
 
-## Build models
+2. Get selected variables
+    UAT1 home dir
+    extract_var.groovy
+    input: IV_calc.lst, temp2
+    output: variable_selected
+
+3. Keep the selected variables 
+    VarSelect.sas
+
+## Flooring and Capping 
+
+## Modeling
