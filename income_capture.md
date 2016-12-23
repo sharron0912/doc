@@ -211,10 +211,10 @@ output: VARCLUS2.lst, summary_varclus_cfin.xls
 1. 7 steps to get temp2 from VARCLUS2.lst
 
 2. Get selected variables
-    UAT1 home dir
-    extract_var.groovy
-    input: IV_calc.lst, temp2
-    output: variable_selected
+    UAT1 home dir \\
+    extract_var.groovy \\
+    input: IV_calc.lst, temp2 \\
+    output: variable_selected \\
 
 3. Keep the selected variables 
     VarSelect.sas
