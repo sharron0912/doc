@@ -236,7 +236,7 @@ output: VARCLUS2.lst, summary_varclus_cfin.xls
     
     output: random_var_split.csv
     
- 2. gen split and flooring&capping sas files
+2. gen split and flooring&capping sas files
     UAT1 home dir
     
     random_var_gen_file.groovy
@@ -245,7 +245,7 @@ output: VARCLUS2.lst, summary_varclus_cfin.xls
     
     output: split_var_x.sas, floor_cap_x.sas
     
-  3. back to GRID
+3. back to GRID
     /gdm/coe/na_branded_cards/qz90625/income_capture
     
     mkdir cap
@@ -260,6 +260,7 @@ output: VARCLUS2.lst, summary_varclus_cfin.xls
 
 1. transfer csv files from GRID to hdfs on h2o node (bdgtproxy03i2d2 (R_Studio_H2O))
 2. go to bdgtproxy03i2d2 (R_Studio_H2O)
+
     ```sh
     hadoop jar /opt/h2o/current/h2odriver.jar -nodes 3 -mapperXmx 6g -output OutputdirName
     ```
