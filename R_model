@@ -1,0 +1,152 @@
+library(h2o)
+
+localH2O <- h2o.init(ip = "10.102.192.88", port = 54327)
+
+dev=h2o.importFile(path ="hdfs://devtoolsRnD/user/qz90625/income_capture/merge_sep16_dev_selected_final.csv")
+itv=h2o.importFile(path ="hdfs://devtoolsRnD/user/qz90625/income_capture/merge_sep16_itv_selected_final.csv")
+otv1=h2o.importFile(path ="hdfs://devtoolsRnD/user/qz90625/income_capture/merge_aug16_selected_final.csv")
+otv2=h2o.importFile(path ="hdfs://devtoolsRnD/user/qz90625/income_capture/merge_oct16_selected_final.csv")
+
+#Modelling Steps begins
+
+ncol(dev)
+nrow(dev)
+
+all_var<-colnames(dev)
+var <- all_var[!all_var %in% c("cl_tid", "row_num")]
+ind_var <- all_var[!all_var %in% c("cl_tid", "row_num", "resp")]
+
+train<-dev[,var]
+valid<-itv[,var]
+test1<-otv1[,var]
+test2<-otv2[,var]
+
+df <- train
+response <- "resp"
+df[[response]] <- as.factor(df[[response]])
+
+str(train$resp)
+train$resp <- as.factor(train$resp)
+str(train$resp)
+
+
+#Random Forest#
+model_rf<-h2o.randomForest(
+  x=ind_var, 
+  y="resp", 
+  training_frame=train, 
+  mtries = 14,
+  seed=35000,
+  ntrees = 1000,
+  sample_rate = 0.6,
+  #nfolds=3,
+  max_depth =5,
+  nbins=10)
+
+cfin_model_rf<-summary(model_rf)
+write.csv(cfin_model_rf,file = "cfin_model_rf_on_sep.csv")
+
+source('ks_compute.R')
+
+res_dev <- h2o.predict(model_rf, newdata=train)
+train$score <- res_dev$p1
+train <- as.data.frame(train)
+ksdata_dev <- ks_compute(train$score,as.numeric(as.character(train$resp)))
+write.csv(ksdata_dev, file = "cfin_rf_sep_dev.csv")
+max(ksdata_dev[,10])
+
+res_itv <- h2o.predict(model_rf, newdata=valid)
+valid$score <- res_itv$p1
+valid <- as.data.frame(valid)
+ksdata_itv <- ks_compute(valid$score,as.numeric(as.character(valid$resp)))
+write.csv(ksdata_itv, file = "cfin_rf_sep_itv.csv")
+max(ksdata_itv[,10])
+
+res_otv1 <- h2o.predict(model_rf, newdata=test1)
+test1$score <- res_otv1$p1
+test1 <- as.data.frame(test1)
+ksdata_otv1 <- ks_compute(test1$score,as.numeric(as.character(test1$resp)))
+write.csv(ksdata_otv1, file = "cfin_rf_aug.csv")
+max(ksdata_otv1[,10])
+
+res_otv2 <- h2o.predict(model_rf, newdata=test2)
+test2$score <- res_otv2$p1
+test2 <- as.data.frame(test2)
+ksdata_otv2 <- ks_compute(test2$score,as.numeric(as.character(test2$resp)))
+write.csv(ksdata_otv2, file = "cfin_rf_oct.csv")
+max(ksdata_otv2[,10])
+
+
+######GBM Model###########
+#Running GBM iteration post RF
+
+gbm <- h2o.gbm(
+  ## standard model parameters
+  x = var, 
+  y = response, 
+  training_frame = train,
+  ntrees = 7500,                                                            
+  learn_rate=0.05,
+  max_depth=5,
+  stopping_rounds = 5,
+  stopping_tolerance = 1e-4, 
+  sample_rate = 0.6,                                                       
+  col_sample_rate = 0.6,                                                   
+  seed = 30000,                                                             
+  score_tree_interval = 10)
+
+h2o.auc(h2o.performance(gbm, newdata = temp1)) 
+h2o.auc(h2o.performance(gbm, newdata = temp2)) 
+h2o.auc(h2o.performance(gbm, newdata = temp3))
+h2o.auc(h2o.performance(gbm, newdata = temp4)) 
+
+
+#####################KS calculation##################
+a <- h2o.predict(gbm3, newdata=train)
+train$score <- a$p1
+train <- as.data.frame(train)
+source('ks_compute.R')
+ksdata <- ks_compute(train$score,as.numeric(as.character(train$resp)))
+#write.csv(ksdata, file = "RF_ICLI_v20_dev.csv")
+max(ksdata[,10])
+
+b <- h2o.predict(gbm3, newdata=valid)
+valid$score <- b$p1
+valid <- as.data.frame(valid)
+source('ks_compute.R')
+ksdata_1 <- ks_compute(valid$score,as.numeric(as.character(valid$resp)))
+#write.csv(ksdata_1, file = "RF_ICLI_v20_itv.csv")
+max(ksdata_1[,10])
+
+c <- h2o.predict(gbm3, newdata=otv1_a)
+otv1_a$score <- c$p1
+otv1_a <- as.data.frame(otv1_a)
+#source('ks_compute.R')
+ksdata_2 <- ks_compute(otv1_a$score,as.numeric(as.character(otv1_a$resp)))
+#write.csv(ksdata_2, file = "RF_ICLI_v20_otv1.csv")
+max(ksdata_2[,10])
+
+d <- h2o.predict(gbm3, newdata=otv2_a)
+otv2_a$score <- d$p1
+otv2_a <- as.data.frame(otv2_a)
+#source('ks_compute.R')
+ksdata_3 <- ks_compute(otv2_a$score,as.numeric(as.character(otv2_a$resp)))
+#write.csv(ksdata_3, file = "RF_ICLI_v20_otv2.csv")
+max(ksdata_3[,10])
+
+e <- h2o.predict(gbm3, newdata=otv3_a)
+otv3_a$score <- e$p1
+otv3_a <- as.data.frame(otv3_a)
+#source('ks_compute.R')
+ksdata_4 <- ks_compute(otv3_a$score,as.numeric(as.character(otv3_a$resp)))
+#write.csv(ksdata_4, file = "RF_ICLI_v20_otv3.csv")
+max(ksdata_4[,10])
+
+
+f <- h2o.predict(gbm3, newdata=otv4_a)
+otv4_a$score <- f$p1
+otv4_a <- as.data.frame(otv4_a)
+#source('ks_compute.R')
+ksdata_5 <- ks_compute(otv4_a$score,as.numeric(as.character(otv4_a$resp)))
+#write.csv(ksdata_5, file = "RF_ICLI_v20_otv3.csv")
+max(ksdata_5[,10])
