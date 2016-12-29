@@ -198,7 +198,7 @@ scp test.txt qz90625@cagprod.nam.nsroot.net:~/income_capture
 ### machine learning (transaction level)
 
 ## IV criterion calculation
-/gdm/coe/na_branded_cards/qz90625/income_capture
+GRID: /gdm/coe/na_branded_cards/qz90625/income_capture
 
 IV_calc.sas
 
@@ -227,5 +227,41 @@ output: VARCLUS2.lst, summary_varclus_cfin.xls
     VarSelect.sas
 
 ## Flooring and Capping 
-
+1. split variables into random small sets 
+    UAT1 home dir
+    
+    random_var_split.groovy
+    
+    input: variable_selected
+    
+    output: random_var_split.csv
+    
+ 2. gen split and flooring&capping sas files
+    UAT1 home dir
+    
+    random_var_gen_file.groovy
+    
+    input: random_var_split.csv
+    
+    output: split_var_x.sas, floor_cap_x.sas
+    
+  3. back to GRID
+    /gdm/coe/na_branded_cards/qz90625/income_capture
+    
+    mkdir cap
+    
+    nohup sas split_var_x.sas &
+    
+    nohup sas floor_cap_x.sas &
+    
+    cap/merge_final.sas to convert sas dataset to csv
+    
 ## Modeling
+
+1. transfer csv files from GRID to hdfs on h2o node (bdgtproxy03i2d2 (R_Studio_H2O))
+2. go to bdgtproxy03i2d2 (R_Studio_H2O)
+    ```sh
+    hadoop jar /opt/h2o/current/h2odriver.jar -nodes 3 -mapperXmx 6g -output OutputdirName
+    ```
+3. update ip and port in R code
+    localH2O <- h2o.init(ip = "10.102.192.88", port = 54327) in the R code accordingly
