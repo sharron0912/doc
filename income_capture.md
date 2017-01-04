@@ -191,6 +191,11 @@ scp test.txt qz90625@cagprod.nam.nsroot.net:~/income_capture
    ```
 2. go to https://consumeranalyticsportal.citigroup.net
 
+output in teradata DB p_bcd_v_I_consumer, p_tagdb_t
+CFIN_AUG_TAG
+CFIN_SEP_TAG
+CFIN_OCT_TAG
+CFIN_NOV_TAG
 
 ## Pull variables
 ### conventional 
