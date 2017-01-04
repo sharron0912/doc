@@ -92,7 +92,7 @@ WHERE loc_id!='SALT'
 GROUP BY acct_num
 ```
 
-#### Create a table for September data at account level
+#### Create a table for September data at account level 
 ```sql
 create table rawwebbehavior.qz90625_cfin_resp_sep AS select
     CASE
@@ -181,20 +181,26 @@ hadoop fs -getmerge /user/qz90625/income_capture/sep /data/1/rawwebbehavior/qz90
 
 ### Transfer data from UAT to GRID (SAS)
 ```sh
-scp test.txt qz90625@cagprod.nam.nsroot.net:~/income_capture
+scp /data/1/rawwebbehavior/qz90625/income_capture/sep qz90625@cagprod.nam.nsroot.net:~/income_capture
 ```
+
+instead of the above 3 steps, what actually did is export/download the hive table (e.g. qz90625_cfin_resp_sep) as csv files to local csv and put them to GRID (/home/qz90625/income_capture/data/cfin_sep.csv)
 
 ### Create tag table
 1. copy the csv file to /tagfiles
    ```sh
-   tagcp /path/csv_file
+   tagcp /home/qz90625/income_capture/data/cfin_sep.csv
    ```
 2. go to https://consumeranalyticsportal.citigroup.net
 
 output in teradata DB p_bcd_v_I_consumer, p_tagdb_t
+
 CFIN_AUG_TAG
+
 CFIN_SEP_TAG
+
 CFIN_OCT_TAG
+
 CFIN_NOV_TAG
 
 ## Pull variables
@@ -260,6 +266,14 @@ output: VARCLUS2.lst, summary_varclus_cfin.xls
     nohup sas floor_cap_x.sas &
     
     cap/merge_final.sas to convert sas dataset to csv
+    
+    output: e.g. /gdm/coe/na_branded_cards/qz90625/income_capture/cap/merge_oct16_selected_final.csv
+    
+    transfer data from GRID to UAT1 /data/1/rawwebbehavior/qz90625/income_capture/
+    
+    transfer data to UAT1 to a H2O sever (R_Studio_H2O: bdgtproxy03i2d2) /data/1/namcards/
+    
+    put data to hdfs /user/qz90625/income_capture/
     
 ## Modeling
 
