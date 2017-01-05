@@ -271,7 +271,7 @@ output: VARCLUS2.lst, summary_varclus_cfin.xls
     
     transfer data from GRID to UAT1 /data/1/rawwebbehavior/qz90625/income_capture/
     
-    transfer data to UAT1 to a H2O sever (R_Studio_H2O: bdgtproxy03i2d2) /data/1/namcards/
+    transfer data to UAT1 to a H2O sever (R_Studio_H2O: bdgtproxy03i2d2) /data/1/namcards/qz90625/
     
     put data to hdfs /user/qz90625/income_capture/
     
