@@ -269,11 +269,11 @@ output: VARCLUS2.lst, summary_varclus_cfin.xls
     
     output: e.g. /gdm/coe/na_branded_cards/qz90625/income_capture/cap/merge_oct16_selected_final.csv
     
-    transfer data from GRID to UAT1 /data/1/rawwebbehavior/qz90625/income_capture/
+    transfer data from GRID to UAT1 /data/1/rawwebbehavior/qz90625/income_capture/data
     
-    transfer data to UAT1 to a H2O sever (R_Studio_H2O: bdgtproxy03i2d2) /data/1/namcards/qz90625/
+    transfer data to UAT1 to a H2O sever (R_Studio_H2O: bdgtproxy03i2d2) /data/1/namcards/qz90625/income_capture
     
-    put data to hdfs /user/qz90625/income_capture/
+    put data to hdfs /user/qz90625/income_capture/data
     
 ## Modeling
 
